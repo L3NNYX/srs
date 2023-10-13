@@ -23,7 +23,7 @@ RUN if [[ $INSTALLDEPENDS != 'NO' ]]; then \
     fi
 
 # Copy source code to docker.
-COPY . /srs
+ADD . /srs
 WORKDIR /srs/trunk
 
 # Build and install SRS.
@@ -44,9 +44,9 @@ RUN echo "BUILDPLATFORM: $BUILDPLATFORM, TARGETPLATFORM: $TARGETPLATFORM"
 EXPOSE 1935 1985 8080 5060 9000 8000/udp 10080/udp
 
 # FFMPEG 4.1
-COPY --from=build /usr/local/bin/ffmpeg /usr/local/srs/objs/ffmpeg/bin/ffmpeg
+ADD --from=build /usr/local/bin/ffmpeg /usr/local/srs/objs/ffmpeg/bin/ffmpeg
 # SRS binary, config files and srs-console.
-COPY --from=build /usr/local/srs /usr/local/srs
+ADD --from=build /usr/local/srs /usr/local/srs
 
 # Test the version of binaries.
 RUN ldd /usr/local/srs/objs/ffmpeg/bin/ffmpeg && \
